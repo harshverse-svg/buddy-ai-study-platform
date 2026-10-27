@@ -1,0 +1,33 @@
+# ==============================================================================
+# BUDDY — Core Python Dependencies
+# Local AI Study, Quiz, Book Generator & Concept Map Platform
+# ==============================================================================
+
+# Web Framework & High-Performance Async Server
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+sse-starlette>=2.0.0
+python-multipart>=0.0.9
+aiofiles>=23.2.1
+
+# Data Models & SQLite ORM
+sqlalchemy>=2.0.28
+pydantic>=2.6.4
+
+# Local LLM Interface & Vector/Lexical Retrieval
+ollama>=0.1.7
+rank-bm25>=0.2.2
+
+# Document Parsing & Ingestion Engine
+pymupdf>=1.24.0
+markitdown[all]>=0.0.1a2
+pandas>=2.2.1
+openpyxl>=3.1.2
+
+# ------------------------------------------------------------------------------
+# Optional: Optical Character Recognition (OCR for scanned PDFs/images)
+# CPU-only fallback engine (Supported on Python <= 3.12)
+# Uncomment if using scanned image PDFs on Python 3.10 - 3.12:
+# ------------------------------------------------------------------------------
+# paddlepaddle>=2.6.0
+# paddleocr>=2.7.3
