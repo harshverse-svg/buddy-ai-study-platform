@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Shiksha Buddy — Study slow. Learn deep. Drop in your notes. Shiksha Buddy turns them into answers, quizzes and a study book made just for you.">
+    <title>Shiksha Buddy</title>
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=clash-display@600,700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='%23EAAA00'/%3E%3C/svg%3E">
+    
+    <!-- Core Style -->
+    <link rel="stylesheet" href="css/style.css?v=5">
+
+    <!-- Three.js (Feature 1 Hero Particle Walker) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Motion Libraries (GSAP, ScrollTrigger, Lenis) -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+
+    <!-- KaTeX for Clean Math Rendering (Part C9) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+</head>
+<body>
+
+    <!-- ═══ 4% ANIMATED FILM-GRAIN OVERLAY ═══ -->
+    <div class="film-grain-overlay" aria-hidden="true"></div>
+
+    <!-- ═══ CONFETTI BURST CANVAS ═══ -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- ═══ HIDDEN GLOBAL FILE INPUT ═══ -->
+    <input type="file" id="global-file-input" style="display:none;" accept=".pdf,.docx,.xlsx,.csv,.md,.txt,.png,.jpg">
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         STAGE 1: UPGRADED EDITORIAL LUSION LANDING PAGE (#landing-view)
+         ORDER: Hero (particle scene) → Giant-type mask → Cylinder cards → Swarm → Closing CTA → Footer
+         ═══════════════════════════════════════════════════════════════════════════ -->
+    <div id="landing-view" class="landing-view">
+
+        <!-- Editorial Nav -->
+        <header class="landing-navbar">
+            <div class="nav-brand" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <span>Shiksha Buddy</span>
+            </div>
+            <div class="nav-actions">
+                <button class="nav-pill-btn btn-magnetic" onclick="enterApp(0)" data-cursor="Open">Open app →</button>
+            </div>
+        </header>
+
+        <!-- 1. Hero: Full-Screen Hologram Video Behind Everything -->
+        <section class="hero-section hero" id="hero">
+            <div class="hero-video" id="hero-video" aria-hidden="true">
+                <video id="hero-hologram-video" class="hero-hologram-video" autoplay loop muted playsinline preload="auto" poster="static/video/hero-face.jpg">
+                    <source src="static/video/hero-face.webm" type="video/webm">
+                    <source src="static/video/hero-face.mp4" type="video/mp4" media="(min-width: 900px)">
+                    <source src="static/video/hero-face-sm.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <canvas id="hero-hologram-canvas"></canvas>
+            </div>
+            <div class="hero-scrim" aria-hidden="true"></div>
+
+            <!-- Exact Animated Wordmark -->
+            <h1 class="wordmark" id="wm" aria-label="Shiksha Buddy">Shiksha Buddy</h1>
+
+            <!-- Headline Word Reveal ("Study slow. Learn deep.") -->
+            <h2 class="hero-headline" id="hero-headline">Study slow. Learn <span class="hl-marigold">deep.</span></h2>
+
+            <p class="hero-sub">Drop in your notes. Shiksha Buddy turns them into answers, quizzes and a study book made just for you.</p>
+
+            <div class="hero-actions">
+                <button class="btn-cta-marigold btn-magnetic" onclick="enterApp(0)" data-cursor="Start">
+                    <div class="btn-txt-roll">
+                        <span>Start studying</span>
+                        <span>Start studying</span>
+                    </div>
+                </button>
+                <a href="#mask-transition-section" class="btn-cta-secondary btn-magnetic" data-cursor="Explore">See how it works</a>
+            </div>
+
+            <div class="hero-scroll-hint">
+                <span>Scroll to discover</span>
+                <span class="scroll-arrow">↓</span>
+            </div>
+        </section>
+
+        <!-- Tagline Marquee (Scroll-Velocity & Direction-Reactive) -->
+        <div class="tagline-marquee-container">
+            <div class="tagline-marquee-track" id="tagline-marquee-track">
+                <div class="marquee-item filled">Your notes, finally talking back.<span class="marquee-dot"></span></div>
+                <div class="marquee-item outlined">Every PDF becomes a teacher.<span class="marquee-dot"></span></div>
+                <div class="marquee-item filled">Less cramming. More knowing.<span class="marquee-dot"></span></div>
+                <div class="marquee-item outlined">Private by design. Yours alone.<span class="marquee-dot"></span></div>
+                <div class="marquee-item filled">A friend who read everything you did.<span class="marquee-dot"></span></div>
+                <!-- Duplicate Set for Seamless Loop -->
+                <div class="marquee-item filled">Your notes, finally talking back.<span class="marquee-dot"></span></div>
+                <div class="marquee-item outlined">Every PDF becomes a teacher.<span class="marquee-dot"></span></div>
+                <div class="marquee-item filled">Less cramming. More knowing.<span class="marquee-dot"></span></div>
+                <div class="marquee-item outlined">Private by design. Yours alone.<span class="marquee-dot"></span></div>
+                <div class="marquee-item filled">A friend who read everything you did.<span class="marquee-dot"></span></div>
+            </div>
+        </div>
+
+        <!-- 2. Giant-Type Mask Transition ("LEARN DEEP" SVG mask transition) -->
+        <section class="mask-transition-section" id="mask-transition-section">
+            <div class="mask-overlay-layer" id="mask-overlay-layer">
+                <svg id="giant-mask-svg" class="giant-mask-svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid meet">
+                    <defs>
+                        <mask id="deepTextMask">
+                            <rect width="100%" height="100%" fill="white" />
+                            <g id="giant-mask-svg-group">
+                                <text id="giant-mask-svg-text" x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="black" font-family="'Clash Display', sans-serif" font-weight="700" font-size="240" letter-spacing="-0.04em">LEARN DEEP</text>
+                            </g>
+                        </mask>
+                    </defs>
+                    <rect width="100%" height="100%" fill="#3A0F34" mask="url(#deepTextMask)" />
+                    <g id="giant-text-visible-group">
+                        <text id="giant-text-visible" x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#DDE3E8" font-family="'Clash Display', sans-serif" font-weight="700" font-size="240" letter-spacing="-0.04em">LEARN DEEP</text>
+                    </g>
+                </svg>
+            </div>
+            <div class="giant-type-display-wrap">
+                <div class="mask-scroll-hint" id="mask-scroll-hint">Scroll to see how it works ↓</div>
+            </div>
+        </section>
+
+        <!-- 3. 3D Cylindrical Card Carousel (Pinned rotation, 5 tall cards) -->
+        <section class="cylinder-section" id="cylinder-section">
+            <div class="cylinder-container">
+                <div class="cylinder-info-column">
+                    <div class="cylinder-counter" id="cylinder-active-counter">01 / 06</div>
+                    <h2 class="cylinder-title" id="cylinder-active-title">Study Chat</h2>
+                    <p class="cylinder-sub" id="cylinder-active-sub">Ask your notes anything.</p>
+                    <div>
+                        <button class="btn-cta-marigold btn-magnetic" id="cylinder-active-btn" data-cursor="Open">
+                            <div class="btn-txt-roll">
+                                <span>Launch Studio →</span>
+                                <span>Launch Studio →</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cylinder-viewport" id="cylinder-viewport">
+                    <div class="cylinder-ring" id="cylinder-ring">
+                        <!-- Card 01: Study Chat -->
+                        <div class="cylinder-card glass-card is-active" style="--i: 0;" data-cursor="outline" data-cursor-label="Chat">
+                            <div class="card-top-row">
+                                <span class="card-num">01</span>
+                                <div class="card-icon-wrap">
+                                    <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-center-body">
+                                <h3 class="card-main-title">Study Chat</h3>
+                                <div class="card-tagline">Ask your notes anything.</div>
+                                <p class="card-desc">Every explanation is strictly grounded in your materials. No hallucinations, no generic internet summaries.</p>
+                            </div>
+                            <div class="card-bottom-row">
+                                <span class="card-arrow-label">Interactive AI</span>
+                                <span>→</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 02: Ask Anything (Personal Mentor) -->
+                        <div class="cylinder-card glass-card is-dimmed" style="--i: 1;" data-cursor="outline" data-cursor-label="Ask">
+                            <div class="card-top-row">
+                                <span class="card-num">02</span>
+                                <div class="card-icon-wrap">
+                                    <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-center-body">
+                                <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+                                    <h3 class="card-main-title" style="margin-bottom:0;">Ask Anything</h3>
+                                    <span class="card-badge" style="display:inline-block;padding:2px 8px;border-radius:12px;font-size:0.7rem;font-weight:600;background:rgba(234,170,0,0.15);color:var(--marigold);border:1px solid rgba(234,170,0,0.3);">Personal mentor</span>
+                                </div>
+                                <div class="card-tagline">Your personal mentor. Ask anything, no files needed.</div>
+                                <p class="card-desc">Clear step-by-step guidance, intuitive analogies, and customized study coaching across any subject or curriculum.</p>
+                            </div>
+                            <div class="card-bottom-row">
+                                <span class="card-arrow-label">Personal Mentor</span>
+                                <span>→</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 03: Mind Map -->
+                        <div class="cylinder-card glass-card is-dimmed" style="--i: 2;" data-cursor="outline" data-cursor-label="Map">
+                            <div class="card-top-row">
+                                <span class="card-num">03</span>
+                                <div class="card-icon-wrap">
+                                    <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-center-body">
+                                <h3 class="card-main-title">Mind Map</h3>
+                                <div class="card-tagline">See how ideas connect.</div>
+                                <p class="card-desc">Interactive force-directed concept graphs reveal dependencies and prerequisites across all your course units.</p>
+                            </div>
+                            <div class="card-bottom-row">
+                                <span class="card-arrow-label">Spatial Graph</span>
+                                <span>→</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 04: Study Book -->
+                        <div class="cylinder-card glass-card is-dimmed" style="--i: 3;" data-cursor="outline" data-cursor-label="Book">
+                            <div class="card-top-row">
+                                <span class="card-num">04</span>
+                                <div class="card-icon-wrap">
+                                    <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-center-body">
+                                <h3 class="card-main-title">Study Book</h3>
+                                <div class="card-tagline">Your notes, rewritten as a book.</div>
+                                <p class="card-desc">Messy slides and handouts synthesized into clear, publication-grade study chapters with key takeaways.</p>
+                            </div>
+                            <div class="card-bottom-row">
+                                <span class="card-arrow-label">Autonomous Synthesis</span>
+                                <span>→</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 05: Quiz Arena -->
+                        <div class="cylinder-card glass-card is-dimmed" style="--i: 4;" data-cursor="outline" data-cursor-label="Quiz">
+                            <div class="card-top-row">
+                                <span class="card-num">05</span>
+                                <div class="card-icon-wrap">
+                                    <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-center-body">
+                                <h3 class="card-main-title">Quiz Arena</h3>
+                                <div class="card-tagline">Quizzes that learn how you learn.</div>
+                                <p class="card-desc">Four cognitive difficulty tiers with contextual explanations that isolate weak spots before exam day.</p>
+                            </div>
+                            <div class="card-bottom-row">
+                                <span class="card-arrow-label">Adaptive Recall</span>
+                                <span>→</span>
+                            </div>
+                        </div>
+
+                        <!-- Card 06: Progress Stats -->
+                        <div class="cylinder-card glass-card is-dimmed" style="--i: 5;" data-cursor="outline" data-cursor-label="Stats">
+                            <div class="card-top-row">
+                                <span class="card-num">06</span>
+                                <div class="card-icon-wrap">
+                                    <svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                                </div>
+                            </div>
+                            <div class="card-center-body">
+                                <h3 class="card-main-title">Progress Stats</h3>
+                                <div class="card-tagline">Track focus and weak spots.</div>
+                                <p class="card-desc">Precision accuracy ring, score trajectory, and AI study prescriptions tailored to your specific retention curve.</p>
+                            </div>
+                            <div class="card-bottom-row">
+                                <span class="card-arrow-label">Retention Analytics</span>
+                                <span>→</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. Physics Particle Swarm (Muted Amber Canvas) -->
+        <section class="swarm-section swarm" id="swarm-section">
+            <div class="swarm-edge-top" aria-hidden="true"></div>
+            <div class="swarm-vignette" aria-hidden="true"></div>
+            <canvas id="swarm-canvas"></canvas>
+            <div class="swarm-content">
+                <h2 class="swarm-title">Thousands of tiny ideas.<br>One calm mind.</h2>
+                <button class="btn-swarm-cta btn-magnetic" onclick="enterApp(0)" data-cursor="Start">Start studying</button>
+            </div>
+            <div class="swarm-edge-bot" aria-hidden="true"></div>
+        </section>
+
+        <!-- 5. Giant Closing CTA with 3D Brand Globe -->
+        <section class="closing-cta-section" id="closing-cta">
+            <div class="closing-cta-container">
+                <div class="closing-cta-left">
+                    <h2 class="closing-title">Ready when you are.</h2>
+                    <p class="closing-sub">Turn your scattered notes into clear, calm understanding.</p>
+                    <button class="btn-cta-marigold btn-magnetic" onclick="enterApp(0)" data-cursor="Start">
+                        <div class="btn-txt-roll">
+                            <span>Start studying</span>
+                            <span>Start studying</span>
+                        </div>
+                    </button>
+                </div>
+                <div class="closing-cta-globe" id="brand-globe-container" aria-label="Interactive 3D Shiksha Buddy Brand Globe">
+                    <canvas id="brand-globe-canvas"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. Editorial Landing Footer -->
+        <footer class="landing-footer">
+            <div class="footer-inner">
+                <div class="crafted-credit">
+                    <span>Crafted by Neural Nomads</span>
+                    <span class="dot-marigold"></span>
+                </div>
+                <button class="footer-back-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">Back to Top ↑</button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════
+         STAGE 2: MINIMALIST CLAUDE/CHATGPT STUDY DASHBOARD (#app-view)
+         ═══════════════════════════════════════════════════════════════════════════ -->
+    <div id="app" class="app-view" style="display: none;">
+
+        <!-- C5: Living Background (Behind content only, z-index -1) -->
+        <div class="app-bg" id="app-bg" aria-hidden="true">
+            <div class="app-bg-blob blob-plum"></div>
+            <div class="app-bg-blob blob-aubergine"></div>
+            <div class="app-bg-blob blob-marigold"></div>
+            <div class="app-bg-pulse" id="app-bg-pulse"></div>
+        </div>
+
+        <div class="app-layout">
+            <!-- Slim Collapsible Left Sidebar -->
+            <aside class="app-sidebar" id="app-sidebar">
+                <div class="sidebar-top">
+                    <div class="sidebar-brand-row">
+                        <span class="sidebar-brand-title" onclick="exitToLanding()">Shiksha Buddy</span>
+                        <button class="btn-sidebar-collapse" onclick="toggleSidebar()" title="Collapse sidebar" aria-label="Collapse sidebar">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+                        </button>
+                    </div>
+
+                    <!-- Sidebar File Counter Pill -->
+                    <div class="sidebar-file-pill-row">
+                        <button class="sidebar-file-pill" id="sidebar-file-pill" onclick="toggleFileManager(true)" title="Manage uploaded notes" aria-label="Manage uploaded notes">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l7.88-7.87"/></svg>
+                            <span id="sidebar-file-count-text">No files yet</span>
+                        </button>
+                    </div>
+
+                    <!-- Search Chats Input -->
+                    <div class="sidebar-search-row">
+                        <div class="sidebar-search-wrap">
+                            <svg class="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                            <input type="text" id="sidebar-chat-search" class="sidebar-search-input" placeholder="Search chats" autocomplete="off" spellcheck="false" />
+                            <button id="sidebar-search-clear" class="btn-search-clear" onclick="clearChatSearch()" title="Clear search (Esc)" aria-label="Clear search" style="display:none;">×</button>
+                            <span class="search-shortcut-badge" id="search-shortcut-badge">⌘K</span>
+                        </div>
+                    </div>
+
+                    <!-- Action Row: New chat + Select button -->
+                    <div class="sidebar-action-row">
+                        <button class="btn-new-chat btn-magnetic" onclick="createSession()" data-cursor="New" aria-label="New chat">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                            <span>New chat</span>
+                        </button>
+                        <button class="btn-sidebar-select" id="btn-sidebar-select" onclick="toggleBulkSelectMode()" title="Select multiple chats" aria-label="Select chats">
+                            <span>Select</span>
+                        </button>
+                    </div>
+
+                    <!-- Bulk Actions Bar (hidden by default) -->
+                    <div class="sidebar-bulk-bar" id="sidebar-bulk-bar" style="display:none;">
+                        <div class="bulk-bar-top">
+                            <label class="bulk-select-all-label">
+                                <input type="checkbox" id="bulk-select-all-checkbox" onchange="toggleSelectAllChats(this)" />
+                                <span id="bulk-selected-count">0 selected</span>
+                            </label>
+                            <div class="bulk-menu-anchor" style="position:relative;">
+                                <button class="btn-bulk-menu-toggle" onclick="toggleBulkMenu(event)" title="More options" aria-label="More options">•••</button>
+                                <div class="bulk-dropdown-menu" id="bulk-dropdown-menu" style="display:none;">
+                                    <button class="bulk-menu-item danger" onclick="confirmDeleteAllChats()">Delete all chats…</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bulk-bar-actions">
+                            <button class="btn-bulk-delete" id="btn-bulk-delete-btn" onclick="deleteSelectedChats()" disabled>Delete selected</button>
+                        </div>
+                    </div>
+
+                    <!-- Delete Confirm Popover -->
+                    <div class="chat-delete-popover glass-card" id="chat-delete-popover" style="display:none;" role="dialog" aria-modal="true">
+                        <p class="popover-text">Delete this chat? Its messages, files and quiz history are removed for good.</p>
+                        <div class="popover-btn-row">
+                            <button class="btn-popover-cancel" onclick="closeDeletePopover()">Cancel</button>
+                            <button class="btn-popover-delete" onclick="confirmDeleteCurrentRow()">Delete</button>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-session-list" id="session-list" data-lenis-prevent>
+                        <!-- Populated dynamically by app.js -->
+                    </div>
+                </div>
+
+                <div class="sidebar-bottom">
+                    <!-- C6: Notebook Row Pinned Above Add Files -->
+                    <div class="sidebar-notebook-wrap">
+                        <button class="sidebar-notebook-row" id="sidebar-notebook-btn" onclick="toggleNotebookDrawer(true)" title="Saved notes & study sheets" aria-label="Open Notebook">
+                            <div class="notebook-row-left">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 2v20"/><path d="M10 2v7l3-2 3 2V2"/></svg>
+                                <span>Notebook</span>
+                            </div>
+                            <span class="notebook-count-badge" id="notebook-count-badge">0</span>
+                        </button>
+                    </div>
+
+                    <div class="sidebar-upload-wrap">
+                        <button class="btn-add-files" onclick="triggerFileUpload()" data-cursor="Upload" aria-label="Add files">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <span>Add files</span>
+                        </button>
+                    </div>
+
+                    <div class="crafted-credit" style="margin-top: 16px; justify-content: center; font-size: 0.65rem;">
+                        <span>Crafted by Neural Nomads</span>
+                        <span class="dot-marigold"></span>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Center Viewport -->
+            <main class="dashboard-main">
+                <header class="dashboard-header">
+                    <div class="header-left">
+                        <button class="btn-sidebar-expand" id="btn-sidebar-expand" onclick="toggleSidebar()" title="Expand sidebar" aria-label="Expand sidebar">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+                        </button>
+                        <h2 class="session-header-title" id="session-header-title">My Study Notes</h2>
+                    </div>
+
+                    <!-- Center: Icon Dock inside Header (Order: Chat, Ask, Map, Book, Summary, Quiz, Stats) -->
+                    <nav class="dashboard-pill-dock" id="dashboard-pill-dock" aria-label="Study Navigation">
+                        <button class="dock-item active btn-magnetic" data-ws="0" onclick="switchWorkspace(0)" aria-label="Chat" data-cursor="Chat">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            <span class="dock-tooltip">Chat</span>
+                        </button>
+                        <button class="dock-item btn-magnetic" data-ws="1" onclick="switchWorkspace(1)" aria-label="Ask" data-cursor="Ask">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>
+                            <span class="dock-tooltip">Ask</span>
+                        </button>
+                        <button class="dock-item btn-magnetic" data-ws="2" onclick="switchWorkspace(2)" aria-label="Mind Map" data-cursor="Map">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="16" y="16" width="6" height="6" rx="1"/><rect x="2" y="16" width="6" height="6" rx="1"/><rect x="9" y="2" width="6" height="6" rx="1"/><path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3"/><path d="M12 12V8"/></svg>
+                            <span class="dock-tooltip">Map</span>
+                        </button>
+                        <button class="dock-item btn-magnetic" data-ws="3" onclick="switchWorkspace(3)" aria-label="Study Book" data-cursor="Book">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                            <span class="dock-tooltip">Book</span>
+                        </button>
+                        <!-- Summary option hidden to prevent full-document context overflows -->
+                        <button class="dock-item btn-magnetic" data-ws="4" onclick="switchWorkspace(4)" aria-label="Summary Studio" data-cursor="Summary" style="display:none !important;">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                            <span class="summary-dock-dot" id="summary-dock-dot" style="display:none;"></span>
+                            <span class="dock-tooltip">Summary</span>
+                        </button>
+                        <button class="dock-item btn-magnetic" data-ws="5" onclick="switchWorkspace(5)" aria-label="Quiz Arena" data-cursor="Quiz">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                            <span class="dock-tooltip">Quiz</span>
+                        </button>
+                        <button class="dock-item btn-magnetic" data-ws="6" onclick="switchWorkspace(6)" aria-label="Progress Stats" data-cursor="Stats">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                            <span class="dock-tooltip">Stats</span>
+                        </button>
+                    </nav>
+
+                    <div class="header-right">
+                        <!-- Theme Toggle Button -->
+                        <button id="theme-toggle-btn" class="theme-toggle-btn btn-magnetic" onclick="toggleTheme()" title="Toggle Theme" aria-label="Toggle Theme">
+                            🌙 Dark Mode
+                        </button>
+                        <!-- C7: Focus Mode Pill -->
+                        <div class="focus-mode-wrapper" id="focus-mode-wrapper">
+                            <button class="btn-focus-pill" id="btn-focus-pill" onclick="toggleFocusPopover()" aria-haspopup="dialog" title="Focus timer (Click to set)" aria-label="Focus timer">
+                                <svg class="focus-timer-ring" width="18" height="18" viewBox="0 0 24 24">
+                                    <circle class="focus-ring-track" cx="12" cy="12" r="9"/>
+                                    <circle class="focus-ring-progress" id="focus-ring-progress" cx="12" cy="12" r="9"/>
+                                </svg>
+                                <span class="focus-time-text" id="focus-time-text">25:00</span>
+                            </button>
+                        </div>
+                        <button class="btn-back-to-landing" onclick="exitToLanding()" aria-label="Return to landing page">Landing page →</button>
+                    </div>
+                </header>
+
+                <div class="workspace-container">
+                    
+                    <!-- ─── WS 0: Study Chat (From my notes) ─── -->
+                    <div class="workspace-panel active" id="ws-0">
+                        <div class="chat-workspace-layout">
+                            <!-- Small Segmented Control at top of chat column (under header) -->
+                            <div class="chat-column-segmented-bar">
+                                <div class="header-segmented-switch" id="chat-mode-switch-0" role="tablist" aria-label="Chat mode">
+                                    <button class="mode-tab active" data-mode="notes" role="tab" aria-selected="true" onclick="switchChatMode('notes')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                        <span>From my notes</span>
+                                    </button>
+                                    <button class="mode-tab" data-mode="ask" role="tab" aria-selected="false" onclick="switchChatMode('ask')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                                        <span>Ask anything</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="chat-scroll-area" id="chat-messages-container" data-lenis-prevent>
+                                <!-- Empty state or messages dynamically injected -->
+                            </div>
+
+                            <!-- Normal-Flow Input Composer Wrapper (No overlap with input bar) -->
+                            <div class="composer">
+                                <!-- Removable Attached File Chips Bar -->
+                                <div class="input-file-chips-bar" id="input-file-chips-bar"></div>
+
+                                <!-- Floating Rounded Input Bar -->
+                                <div class="floating-input-bar">
+                                    <button class="input-tool-btn input-file-pill-btn" id="btn-chat-attach" onclick="toggleFileManager(true)" title="Manage notes" aria-label="Manage notes">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l7.88-7.87"/></svg>
+                                        <span id="input-file-pill-count" class="pill-count-text">No files yet</span>
+                                    </button>
+                                    <input type="text" id="chat-input" class="floating-chat-input" placeholder="Ask anything about your notes..." autocomplete="off">
+                                    <button class="input-tool-btn" id="btn-chat-mic" title="Voice input" aria-label="Voice input">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                                    </button>
+                                    <button class="btn-send-marigold" id="btn-chat-send" onclick="sendChat()" title="Send message" aria-label="Send message">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Mascot "Bud" -->
+                            <div class="mascot-bud" id="mascot-bud" title="Bud — your study companion">
+                                <div class="bud-thinking-dots">
+                                    <div class="bud-dot"></div>
+                                    <div class="bud-dot"></div>
+                                    <div class="bud-dot"></div>
+                                </div>
+                                <svg viewBox="0 0 60 60" width="56" height="56">
+                                    <defs>
+                                        <radialGradient id="budBodyGrad" cx="40%" cy="35%" r="65%">
+                                            <stop offset="0%" stop-color="#55174D"/>
+                                            <stop offset="70%" stop-color="#3A0F34"/>
+                                            <stop offset="100%" stop-color="#1B0A18"/>
+                                        </radialGradient>
+                                        <filter id="budGlow" x="-20%" y="-20%" width="140%" height="140%">
+                                            <feGaussianBlur stdDeviation="3" result="glow"/>
+                                            <feMerge>
+                                                <feMergeNode in="glow"/>
+                                                <feMergeNode in="SourceGraphic"/>
+                                            </feMerge>
+                                        </filter>
+                                    </defs>
+                                    <!-- Aura / Glow ring -->
+                                    <circle cx="30" cy="30" r="28" fill="none" stroke="#EAAA00" stroke-width="1.2" opacity="0.45" filter="url(#budGlow)"/>
+                                    <!-- Body -->
+                                    <circle cx="30" cy="30" r="24" fill="url(#budBodyGrad)"/>
+                                    <!-- Eyes White -->
+                                    <ellipse class="eye-white" cx="23" cy="28" rx="4.5" ry="5.5" fill="#DDE3E8"/>
+                                    <ellipse class="eye-white" cx="37" cy="28" rx="4.5" ry="5.5" fill="#DDE3E8"/>
+                                    <!-- Pupils with Cursor Tracking -->
+                                    <circle class="pupil-left" cx="23" cy="28" r="2.2" fill="#12060F"/>
+                                    <circle class="pupil-right" cx="37" cy="28" r="2.2" fill="#12060F"/>
+                                    <!-- Little Smile -->
+                                    <path d="M 27 36 Q 30 38 33 36" fill="none" stroke="#EAAA00" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ─── WS 1: Ask Anything Board (General Tutor) ─── -->
+                    <div class="workspace-panel" id="ws-1">
+                        <div class="chat-workspace-layout">
+                            <!-- Small Segmented Control at top of chat column (under header) -->
+                            <div class="chat-column-segmented-bar">
+                                <div class="header-segmented-switch" id="chat-mode-switch-1" role="tablist" aria-label="Chat mode">
+                                    <button class="mode-tab" data-mode="notes" role="tab" aria-selected="false" onclick="switchChatMode('notes')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                        <span>From my notes</span>
+                                    </button>
+                                    <button class="mode-tab active" data-mode="ask" role="tab" aria-selected="true" onclick="switchChatMode('ask')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                                        <span>Ask anything</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="chat-scroll-area" id="ask-messages-container" data-lenis-prevent>
+                                <!-- Populated dynamically: empty state or messages -->
+                            </div>
+
+                            <div class="chat-input-wrapper">
+                                <div class="floating-input-bar">
+                                    <div class="ask-sparkle-pill" title="General AI Tutor">
+                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#EAAA00" stroke-width="1.75"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                                        <span>Tutor</span>
+                                    </div>
+                                    <input type="text" id="ask-input" class="floating-chat-input" placeholder="Ask any question across any subject..." autocomplete="off">
+                                    <button class="input-tool-btn" id="btn-ask-mic" title="Voice input" aria-label="Voice input">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                                    </button>
+                                    <button class="btn-send-marigold" id="btn-ask-send" onclick="sendAskChat()" title="Send message" aria-label="Send message">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>
+                                    </button>
+                                </div>
+                                <div class="input-info-line">
+                                    <span>General answers, not limited to your files.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ─── WS 2: Mind Map ─── -->
+                    <div class="workspace-panel" id="ws-2">
+                        <div class="mind-map-layout">
+                            <div class="mind-map-canvas-box">
+                                <canvas id="concept-map-canvas" data-lenis-prevent></canvas>
+                                <div class="concept-map-controls">
+                                    <button class="btn-map-control" id="btn-map-reset" onclick="window.resetGraphView && window.resetGraphView()" title="Fit graph to view">Reset view ⟲</button>
+                                </div>
+                                <!-- C4: Mastery Legend Pill at bottom-left -->
+                                <div class="map-legend-pill" id="map-legend-pill" aria-label="Concept map mastery legend">
+                                    <span class="legend-item"><span class="legend-dot dot-weak"></span>Weak</span>
+                                    <span class="legend-item"><span class="legend-dot dot-okay"></span>Okay</span>
+                                    <span class="legend-item"><span class="legend-dot dot-strong"></span>Strong</span>
+                                    <span class="legend-item"><span class="legend-dot dot-untested"></span>Not tested</span>
+                                </div>
+                                <div id="concept-map-tooltip" class="concept-map-tooltip" style="display:none;"></div>
+                            </div>
+                            <div class="mind-map-sidebar">
+                                <div class="node-inspector glass-card">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 8px;">
+                                        <span class="badge" id="node-category" style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;padding:3px 8px;border-radius:6px;background:rgba(234,170,0,0.15);color:var(--marigold);">Concept</span>
+                                        <div style="display:flex;gap:6px;">
+                                            <button id="btn-ask-node" onclick="askAboutNode()" style="display:none;background:var(--surface-elevated);border:1px solid var(--border-color);color:var(--text-primary);border-radius:6px;font-size:0.72rem;padding:3px 8px;cursor:pointer;">Ask about this 💬</button>
+                                            <button id="btn-quiz-node" onclick="quizFromNode()" style="display:none;background:none;border:1px solid var(--accent-primary);color:var(--accent-primary);border-radius:6px;font-size:0.72rem;padding:3px 8px;cursor:pointer;">Quiz Node ⚡</button>
+                                        </div>
+                                    </div>
+                                    <h3 id="node-label" style="font-family:'Clash Display',sans-serif;font-size:1.3rem;margin-bottom:8px;color:var(--heading-color);">Select a Node</h3>
+                                    <p id="node-summary" style="font-size:0.9rem;color:var(--text-secondary);line-height:1.6;">Click any node to explore connections and generated takeaways.</p>
+                                </div>
+                                <div class="glass-card" style="padding: 20px; flex: 1; display: flex; flex-direction: column;">
+                                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                                        <h4 style="font-family:'Clash Display',sans-serif;color:var(--heading-color);">Key Takeaways</h4>
+                                        <button class="btn-cta-secondary" onclick="generateConceptMap()" id="btn-gen-map" style="padding:4px 12px;font-size:0.75rem;">Generate Map</button>
+                                    </div>
+                                    <div id="cheat-sheet-panel" data-lenis-prevent style="flex:1;overflow-y:auto;font-size:0.88rem;color:var(--text-secondary);line-height:1.6;">
+                                        <div style="padding:20px;text-align:center;color:var(--text-muted);">Generate a concept map to view key takeaways</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ─── WS 3: Book Reader ─── -->
+                    <div class="workspace-panel" id="ws-3">
+                        <div class="book-reader-layout">
+                            <aside class="book-sticky-chapters glass-card" style="padding:20px;">
+                                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+                                    <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1px;color:var(--marigold);text-transform:uppercase;">Chapters</span>
+                                    <button onclick="downloadBook()" style="background:none;border:1px solid var(--line);border-radius:6px;color:var(--ice);font-size:0.75rem;padding:3px 8px;cursor:pointer;" title="Export PDF">PDF ↓</button>
+                                </div>
+                                <div id="book-chapters-nav" data-lenis-prevent style="display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-height:calc(100vh - 280px);">
+                                    <!-- Chapters listed dynamically -->
+                                </div>
+                                <div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--line);">
+                                    <button class="btn-cta-marigold" id="btn-gen-book" onclick="generateBook()" style="width:100%;padding:10px 14px;font-size:0.85rem;">Synthesize Book</button>
+                                </div>
+                            </aside>
+
+                            <!-- Clean Reading Column (Max-width 70ch, 1.75 Line-Height) -->
+                            <article class="book-reading-column" id="book-content" data-lenis-prevent>
+                                <div style="padding:60px 0;text-align:center;color:var(--text-muted);">
+                                    <div style="font-size:2rem;margin-bottom:12px;">📖</div>
+                                    <h3 style="font-family:'Clash Display',sans-serif;color:var(--heading-color);font-size:1.4rem;margin-bottom:8px;">Your study book is waiting</h3>
+                                    <p style="font-size:0.92rem;max-width:440px;margin:0 auto 20px;color:var(--text-secondary);">Upload your materials and click "Synthesize Book" to turn them into structured, publication-grade chapters.</p>
+                                    <button class="btn-cta-marigold" onclick="generateBook()" style="padding:10px 24px;font-size:0.9rem;">Synthesize Book</button>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+
+                    <!-- ─── WS 4: Summary Studio (Part C1) ─── -->
+                    <div class="workspace-panel summary-view" id="ws-4">
+                        <div class="summary-studio-layout sum-grid">
+                            <!-- Left: Sticky Control Card (340px >=1100px, Collapsible Panel <1100px) -->
+                            <aside class="summary-control-card sum-control-card glass-card" id="summary-control-card">
+                                <div class="summary-card-header">
+                                    <h3 class="summary-card-title">Summary Studio</h3>
+                                    <button class="summary-mobile-collapse-toggle" id="summary-mobile-collapse-toggle" onclick="toggleSummaryControlPanel()" aria-label="Toggle summary options">
+                                        <span>Options</span>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                                    </button>
+                                </div>
+
+                                <div class="summary-control-body" id="summary-control-body">
+                                    <!-- File Picker with Type Icons + All Files Checkbox -->
+                                    <div class="summary-section">
+                                        <div class="summary-section-title-row">
+                                            <span class="summary-section-label">Source Materials</span>
+                                            <label class="summary-checkbox-pill">
+                                                <input type="checkbox" id="summary-all-files-checkbox" onchange="toggleSummarySelectAllFiles(this)" checked>
+                                                <span>All files</span>
+                                            </label>
+                                        </div>
+                                        <div class="summary-files-list" id="summary-files-list" data-lenis-prevent>
+                                            <!-- Dynamically populated files with checkboxes & icons -->
+                                        </div>
+                                    </div>
+
+                                    <!-- Target Length Segmented Control -->
+                                    <div class="summary-section">
+                                        <div class="summary-section-label">Length (Words)</div>
+                                        <div class="summary-segmented-control" id="summary-length-control" role="tablist" aria-label="Target length in words">
+                                            <div class="summary-segment-indicator" id="length-indicator"></div>
+                                            <button class="summary-segment-btn" data-val="100" role="tab" aria-selected="false" tabindex="-1">100</button>
+                                            <button class="summary-segment-btn" data-val="250" role="tab" aria-selected="false" tabindex="-1">250</button>
+                                            <button class="summary-segment-btn active" data-val="500" role="tab" aria-selected="true" tabindex="0">500</button>
+                                            <button class="summary-segment-btn" data-val="1000" role="tab" aria-selected="false" tabindex="-1">1000</button>
+                                            <button class="summary-segment-btn" data-val="custom" id="summary-btn-custom" role="tab" aria-selected="false" tabindex="-1">Custom</button>
+                                        </div>
+                                        <div class="summary-custom-length-wrap" id="summary-custom-length-wrap" style="display:none;">
+                                            <input type="number" id="summary-custom-length-input" min="50" max="3000" step="50" placeholder="750" value="750">
+                                            <span class="custom-length-unit">words</span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Style Segmented Control -->
+                                    <div class="summary-section">
+                                        <div class="summary-section-label">Summary Style</div>
+                                        <div class="summary-segmented-control" id="summary-style-control" role="tablist" aria-label="Summary style">
+                                            <div class="summary-segment-indicator" id="style-indicator"></div>
+                                            <button class="summary-segment-btn active" data-style="paragraph" role="tab" aria-selected="true" tabindex="0">Paragraph</button>
+                                            <button class="summary-segment-btn" data-style="bullets" role="tab" aria-selected="false" tabindex="-1">Bullets</button>
+                                            <button class="summary-segment-btn" data-style="exam_notes" role="tab" aria-selected="false" tabindex="-1">Exam Notes</button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Summary Button Hidden to prevent VRAM overflow -->
+                                    <div class="summary-submit-wrap" style="display:none !important;">
+                                        <button class="btn-summary-primary" id="btn-start-summary" onclick="startSummaryJob()" style="display:none !important;">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                                            <span id="btn-start-summary-text">Summarize</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </aside>
+
+                            <!-- Right: Result Reading Card (max 70ch, line-height 1.75) -->
+                            <section class="summary-reading-area" id="summary-reading-area">
+                                <div class="summary-reading-card sum-paper glass-card" id="summary-reading-card">
+                                    <!-- Idle State -->
+                                    <div class="summary-idle-state" id="summary-idle-state">
+                                        <div class="summary-idle-icon">📑</div>
+                                        <h3 class="summary-idle-title">Document Summary Pipeline</h3>
+                                        <p class="summary-idle-desc">Pick your source notes, choose a target length and synthesis style, then hit Summarize. Our multi-stage pipeline reads your files in full order, combines notes, and produces an exact study synthesis.</p>
+                                    </div>
+
+                                    <!-- Running / Progress State -->
+                                    <div class="summary-running-state" id="summary-running-state" style="display:none;">
+                                        <div class="summary-progress-track">
+                                            <div class="summary-progress-fill" id="summary-progress-fill"></div>
+                                        </div>
+                                        <div class="summary-running-header">
+                                            <div class="summary-step-pill">
+                                                <div class="step-spinner"></div>
+                                                <span class="summary-step-text" id="summary-step-text">Reading parts…</span>
+                                            </div>
+                                            <button class="btn-summary-stop ghost-btn" onclick="cancelCurrentSummaryJob()">Stop</button>
+                                        </div>
+                                        <p class="summary-reassurance">You can keep studying. I'll let you know when it's ready.</p>
+                                    </div>
+
+                                    <!-- Error / Cancel State -->
+                                    <div class="sum-error-state" id="summary-error-state" style="display:none;">
+                                        <p class="sum-error-desc">Couldn't finish this summary. Try again.</p>
+                                        <button class="sum-btn-retry" onclick="startSummaryJob()">Retry</button>
+                                    </div>
+
+                                    <!-- Result View State -->
+                                    <div class="summary-result-state" id="summary-result-state" style="display:none;">
+                                        <div class="summary-result-header sum-paper-header">
+                                            <div class="summary-meta-pills">
+                                                <span class="summary-count-pill" id="summary-count-pill">Target 500 · Got 487 words</span>
+                                                <span class="summary-saved-tag" id="summary-saved-tag" style="display:none;">Saved</span>
+                                            </div>
+                                            <div class="summary-result-actions">
+                                                <button class="summary-action-btn" onclick="copySummaryText()" title="Copy summary text" aria-label="Copy summary">
+                                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                                                    <span>Copy</span>
+                                                </button>
+                                                <button class="summary-action-btn secondary" onclick="downloadSummaryMd()" title="Download Markdown file" aria-label="Download Markdown">
+                                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                                                    <span>Download .md</span>
+                                                </button>
+                                                <button class="summary-action-btn ghost" onclick="pinSummaryToNotebook()" title="Pin to Notebook" aria-label="Pin to Notebook">
+                                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24Z"/></svg>
+                                                    <span>Pin to Notebook</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="summary-prose-content sum-paper-body" id="summary-prose-content" data-lenis-prevent tabindex="0" role="region" aria-label="Summary text">
+                                            <!-- Structured summary markdown inserted here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- ─── WS 5: Quiz Arena ─── -->
+                    <div class="workspace-panel" id="ws-5">
+                        <div class="quiz-arena-layout">
+                            <!-- Quiz Setup Bar: 4 Difficulties + Stepper + Start Button -->
+                            <div class="quiz-setup-bar glass-card">
+                                <div class="difficulty-chips-row">
+                                    <button class="diff-chip" onclick="selectDifficulty('Foundational', this)">Foundational</button>
+                                    <button class="diff-chip active" onclick="selectDifficulty('Conceptual', this)">Conceptual</button>
+                                    <button class="diff-chip" onclick="selectDifficulty('Applied', this)">Applied</button>
+                                    <button class="diff-chip" onclick="selectDifficulty('Exam Cram', this)">Exam Cram</button>
+                                </div>
+
+                                <div class="question-stepper">
+                                    <button class="stepper-btn" onclick="adjustQuizStepper(-5)">-</button>
+                                    <span class="stepper-val" id="stepper-count-val">10</span>
+                                    <button class="stepper-btn" onclick="adjustQuizStepper(5)">+</button>
+                                    <span style="font-size:0.85rem;color:var(--text-tertiary);margin-left:4px;">questions</span>
+                                </div>
+
+                                <button class="btn-start-quiz" id="btn-start-quiz" onclick="generateQuiz()">Start Quiz</button>
+                            </div>
+
+                            <!-- Progress Bar on Top During Quiz -->
+                            <div class="quiz-top-progress" id="quiz-top-progress" style="display:none;">
+                                <div class="quiz-top-progress-fill" id="quiz-top-progress-fill"></div>
+                            </div>
+
+                            <!-- Question Cards Stack -->
+                            <div id="quiz-questions-container" data-lenis-prevent>
+                                <div class="glass-card" style="padding:60px 20px;text-align:center;color:var(--text-muted);">
+                                    <div style="font-size:2rem;margin-bottom:12px;">⚡</div>
+                                    <h3 style="font-family:'Clash Display',sans-serif;color:var(--heading-color);font-size:1.4rem;margin-bottom:8px;">Quiz Arena</h3>
+                                    <p style="font-size:0.92rem;max-width:440px;margin:0 auto 20px;color:var(--text-secondary);">Select difficulty, pick question count, and test your understanding with anti-hallucination questions.</p>
+                                    <button class="btn-cta-marigold" onclick="generateQuiz()" style="padding:10px 24px;font-size:0.9rem;">Start Quiz</button>
+                                </div>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div id="quiz-submit-area" style="display:none;padding:24px 0;text-align:center;">
+                                <button class="btn-cta-marigold" onclick="submitQuiz()" style="padding:14px 36px;font-size:1rem;">Submit Quiz Answers</button>
+                            </div>
+
+                            <!-- Results Container with Score Count-up -->
+                            <div id="quiz-results-container" style="display:none;"></div>
+                        </div>
+                    </div>
+
+                    <!-- ─── WS 6: Stats (3 Glass Cards Only) ─── -->
+                    <div class="workspace-panel" id="ws-6">
+                        <div class="stats-workspace-grid">
+                            <!-- Card 1: Accuracy Ring -->
+                            <div class="stats-glass-card glass-card">
+                                <h3 class="stats-card-title">Overall Accuracy</h3>
+                                <div id="stats-accuracy-ring" style="flex:1;display:flex;align-items:center;justify-content:center;">
+                                    <div style="text-align:center;color:var(--text-muted);font-size:0.85rem;">
+                                        Take quizzes to calculate overall accuracy
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 2: Score Trend -->
+                            <div class="stats-glass-card glass-card">
+                                <h3 class="stats-card-title">Score Trend</h3>
+                                <div style="flex:1;position:relative;">
+                                    <canvas id="stats-score-chart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Card 3: Focus on These (Top 3 Weak Topics) -->
+                            <div class="stats-glass-card glass-card">
+                                <h3 class="stats-card-title">Focus on These</h3>
+                                <div id="stats-focus-topics" style="flex:1;">
+                                    <div style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 0;color:var(--text-muted);">
+                                        <div style="font-size:2rem;margin-bottom:10px;">💡</div>
+                                        <div style="font-size:0.9rem;">Take a quiz to unlock your study tips.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ═══ TOP-LEVEL OVERLAY ROOT PORTAL ═══ -->
+    <div id="overlay-root">
+        <!-- Slide-over "Your files" Panel -->
+        <div class="drawer-overlay" id="file-manager-overlay" onclick="toggleFileManager(false)"></div>
+        <aside class="file-manager-drawer" id="file-manager-drawer" role="dialog" aria-label="Your study files">
+            <div class="drawer-header">
+                <div class="drawer-header-left">
+                    <h3 class="drawer-title">Your files</h3>
+                    <span class="drawer-files-summary" id="drawer-files-summary">0 files · 0 KB</span>
+                </div>
+                <button class="btn-drawer-close" onclick="toggleFileManager(false)" title="Close" aria-label="Close">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
+            <div class="drawer-actions-bar">
+                <button class="btn-cta-marigold" onclick="triggerFileUpload()" style="width:100%;padding:10px 14px;font-size:0.85rem;display:flex;align-items:center;justify-content:center;gap:8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <span>Add more files</span>
+                </button>
+            </div>
+            <div class="drawer-files-list" id="drawer-files-list" data-lenis-prevent>
+                <!-- Loaded dynamically -->
+            </div>
+        </aside>
+
+        <!-- Slide-over "Notebook" Panel -->
+        <div class="drawer-overlay" id="notebook-overlay" onclick="toggleNotebookDrawer(false)"></div>
+        <aside class="notebook-drawer" id="notebook-drawer" role="dialog" aria-label="Study Notebook">
+            <div class="drawer-header">
+                <div class="drawer-header-left">
+                    <h3 class="drawer-title">Notebook</h3>
+                    <span class="drawer-files-summary" id="notebook-items-summary">0 saved notes</span>
+                </div>
+                <div class="notebook-header-actions">
+                    <button class="notebook-header-btn secondary" onclick="exportNotebookStudySheet()" title="Export clean study sheet (Save as PDF)" aria-label="Export study sheet">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect width="12" height="8" x="6" y="14"/></svg>
+                        <span>Export study sheet</span>
+                    </button>
+                    <div class="notebook-clear-wrap" style="position:relative;">
+                        <button class="notebook-header-btn destructive" onclick="toggleClearNotebookPopover(true)" title="Clear all notes">Clear all</button>
+                        <div class="notebook-clear-popover glass-card" id="notebook-clear-popover" style="display:none;" role="dialog" aria-label="Confirm clear all notes">
+                            <p class="popover-text">Clear all pinned notes from your notebook?</p>
+                            <div class="popover-btn-row">
+                                <button class="btn-popover-cancel" onclick="toggleClearNotebookPopover(false)">Cancel</button>
+                                <button class="btn-popover-delete" onclick="confirmClearAllNotebook()">Clear all</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn-drawer-close" onclick="toggleNotebookDrawer(false)" title="Close" aria-label="Close">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="notebook-items-list" id="notebook-items-list" data-lenis-prevent>
+                <!-- Populated dynamically: title, 3-line snippet, source chip, date, remove button -->
+            </div>
+        </aside>
+
+        <!-- Focus Timer Popover (Anchored under pill in overlay-root) -->
+        <div class="focus-popover" id="focus-popover" role="dialog" aria-modal="true" aria-label="Focus timer settings">
+            <div class="focus-popover-header">
+                <span class="focus-popover-title">Focus Timer</span>
+                <button class="focus-popover-close" onclick="toggleFocusPopover(false)" aria-label="Close focus timer">✕</button>
+            </div>
+            <div class="focus-presets-row" id="focus-presets-segmented">
+                <button class="focus-preset-btn" data-min="15" onclick="setFocusPreset(15)">15m</button>
+                <button class="focus-preset-btn active" data-min="25" id="preset-25" onclick="setFocusPreset(25)">25m</button>
+                <button class="focus-preset-btn" data-min="50" onclick="setFocusPreset(50)">50m</button>
+            </div>
+            <div class="focus-time-display" id="focus-time-display">25:00</div>
+            <div class="focus-controls-row">
+                <button class="focus-btn-primary" id="btn-focus-toggle" onclick="toggleFocusTimer()">Start</button>
+                <button class="focus-btn-secondary" id="btn-focus-reset" onclick="resetFocusTimer()">Reset</button>
+            </div>
+        </div>
+
+        <!-- Drag-and-Drop Overlay -->
+        <div class="drag-drop-overlay" id="drag-drop-overlay">
+            <div class="drag-drop-box glass-card">
+                <div class="drag-drop-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#EAAA00" stroke-width="1.75"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <h3 class="drag-drop-title">Drop to add files</h3>
+                <p class="drag-drop-sub">PDF, TXT, DOCX, Markdown notes</p>
+            </div>
+        </div>
+
+        <!-- Toast Notifications Container -->
+        <div class="toast-container" id="toast-container"></div>
+    </div>
+
+    <!-- Scripts (Organized Modular Architecture) -->
+    <script src="js/hero_shader.js"></script>
+    <script src="js/lusion_motion.js"></script>
+    <script src="js/procedural_charts.js"></script>
+    <script src="js/procedural_graph.js"></script>
+    
+    <!-- New Upgraded Feature Modules: 6 -> 5 -> 1 -> 2 -> 3 -> 4 -->
+    <script src="js/transitions.js"></script>
+    <script src="js/cursor.js?v=2"></script>
+    <script src="js/hero.js"></script>
+    <script src="js/maskText.js"></script>
+    <script src="js/cylinder.js"></script>
+    <script src="js/swarm.js"></script>
+    <script src="js/brand_globe.js"></script>
+    
+    <!-- Main Application Logic (Preserved intact) -->
+    <script src="js/app.js?v=3"></script>
+</body>
+</html>
